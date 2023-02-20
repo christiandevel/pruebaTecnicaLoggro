@@ -1,0 +1,41 @@
+<div class="container">
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <h1 style="padding: 50px">Mi Galeria</h1>
+  </div>
+
+  <form [formGroup]="range" (ngSubmit)="onSubmit()" style="margin-bottom: 30px;">
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Inicio - Fecha Fin</mat-label>
+      <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>MM-DD-YYYY – MM-DD-YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="range.invalid"
+      style="margin-left: 20px;">Filtrar</button>
+  </form>
+
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <mat-icon>collections</mat-icon>
+    <h2 class="gallery-text">Gallery</h2>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-grid-list [cols]="4" gutterSize="10px" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let image of imagesResult">
+      <img [src]="image.url" width="400" alt="image" class="card-img-top ">
+      <mat-grid-tile-footer>
+        <p>{{ image.autor }}</p>
+        <a mat-mini-fab color="accent" aria-label="Ver mas info" [routerLink]="['/view-image', image.uuid]">
+          <mat-icon>open_in_new</mat-icon>
+        </a>
+      </mat-grid-tile-footer>
+      <mat-grid-tile-header>
+        <mat-icon>collections</mat-icon>
+      </mat-grid-tile-header>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

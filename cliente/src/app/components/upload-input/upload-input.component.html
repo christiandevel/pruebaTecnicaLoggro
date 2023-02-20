@@ -1,0 +1,49 @@
+<div class="container-info">
+  <h1>Bienvenido</h1>
+  <p>Aqui podras subir tu imagen, convertirla a formato PNG y guardarla.</p>
+  <p>Empezemos</p>
+</div>
+
+<div class="upload-container">
+  <p>Selecciona una imagen en formato JPG, JPEG, o PNG :</p>
+  <input type="file" accept=".jpg,.jpeg,.png" id="file-input" (change)="onFileSelected($event)"
+    accept=".jpeg, .png, .jpg">
+  <label for="file-input">Seleccionar archivo</label>
+  <div *ngIf="selectedFile">{{selectedFile.name}}</div>
+</div>
+
+<div *ngIf="selectedFile" class="container-button">
+  <mat-radio-group aria-label="Select an option" [(ngModel)]="favoriteSeason">
+    <p>¿Que quieres hacer con la imagen?</p>
+    <mat-radio-button value=1>Convertir y guardar</mat-radio-button>
+    <mat-radio-button value=2>Solo guardar</mat-radio-button>
+    <mat-radio-button value=3>Solo convertir a PNG</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div *ngIf="favoriteSeason == 1 || favoriteSeason == 2" class="container-info">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+      <mat-form-field>
+        <mat-label>Nombre de la Imagen:</mat-label>
+        <input matInput formControlName="nombre" required class="form-input">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Descripcion:</mat-label>
+        <textarea matInput formControlName="descripcion" required class="form-input"></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Autor:</mat-label>
+        <input matInput formControlName="autor" required class="form-input">
+      </mat-form-field>
+    </div>
+    <div class="submit-button">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Submit</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="favoriteSeason == 3" class="container-info">
+  <p>La imagen se convertira a formato PNG pero no se guardar en nuestros registros</p>
+  <button mat-raised-button color="primary" (click)="downloadImage()">Abrir Imagen</button>
+</div>
